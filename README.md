@@ -1,6 +1,8 @@
 # Confetti Party using EnTT
 Sample programm in C++ using SDL2 and EnTT libraries.
 
+![Confetti Party Preview](https://www.hexerei-software.de/public/assets/github/entt-confetti/entt-confetti.jpg)
+
 ## Details
 
 This sample programm was created as a starting point for developing applications in C++ using SDL2 and EnTT libraries.
