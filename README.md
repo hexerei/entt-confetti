@@ -75,3 +75,14 @@ The only libraries used in the current code stack are SDL2 and EnTT. But makefil
 
 #### SDL2_mixer
 [SDL2 Mixer](https://github.com/libsdl-org/SDL_mixer/releases) is a simple multi-channel audio mixer. It supports 8 channels of 16 bit stereo audio, plus a single channel of music. It can load FLAC, MP3, Ogg, VOC, and WAV format audio. It can also load MIDI, MOD, and Opus audio, depending on build options.
+
+## License
+
+Code and documentation Copyright (c) 2022 Daniel Vorhauer.
+
+Code released under
+[the MIT license](https://github.com/hexerei/entt-confetti/blob/main/LICENSE).
+
+Documentation released under
+[CC BY 4.0](https://creativecommons.org/licenses/by/4.0/).
+
