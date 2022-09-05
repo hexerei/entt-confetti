@@ -6,7 +6,7 @@ Sample programm in C++ using SDL2 and EnTT libraries.
 ## Details
 
 This sample programm was created as a starting point for developing applications in C++ using SDL2 and EnTT libraries.
-Specifically it shows the most essential usage of the [Entity Component System](https://en.wikipedia.org/wiki/Entity_component_system) provided by the EnTT library, using small data structs as components. Although Entity and Component are used here, the System is not implemented as separate function, but included in the update() and render() functions of the Game class.
+Specifically it shows the most essential usage of the [Entity Component System](https://en.wikipedia.org/wiki/Entity_component_system) provided by the EnTT library, using small data structs as position, velocity and color components, to **render and move 1000 colorful confettis** on the screen. Although Entity and Component are used here, the System is not implemented as separate function, but included in the update() and render() functions of the Game class.
 
 Most code repositories that I found implementing EnTT as their ECS base, actually had rather complex components, which I found to be overloaded with functionality and not matching the raw data I would have expected to see in a component, while functionality should be implemented by systems, in my humble opinion.
 
