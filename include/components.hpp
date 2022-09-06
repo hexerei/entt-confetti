@@ -42,17 +42,17 @@ struct Velocity
 // color component
 struct Color
 {
-    u_char r;   // red color component
-    u_char g;   // green color component
-    u_char b;   // blue color component
-    u_char a;   // transparency color component
+    uint8_t r;   // red color component
+    uint8_t g;   // green color component
+    uint8_t b;   // blue color component
+    uint8_t a;   // transparency color component
 
     // default constructors
     Color() = default;
     Color(const Color&) = default;
     // constructor to initialize component when adding it to entity
-    Color(u_char cr, u_char cg, u_char cb)
+    Color(uint8_t cr, uint8_t cg, uint8_t cb)
         : r(cr), g(cg), b(cb), a(255) {};
-    Color(u_char cr, u_char cg, u_char cb, u_char ca)
+    Color(uint8_t cr, uint8_t cg, uint8_t cb, uint8_t ca)
         : r(cr), g(cg), b(cb), a(ca) {};
 };
