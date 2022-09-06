@@ -1,3 +1,13 @@
+/**
+ * @file config.hpp
+ * @author Daniel Vorhauer (daniel@hexerei.net)
+ * @brief Collection of global constants used within the project.
+ * @version 0.3
+ * @date 2022-09-06
+ *
+ * @copyright Copyright (c) 2022 Daniel Vorhauer
+ *
+ */
 #pragma once
 
 namespace config
@@ -30,10 +40,12 @@ namespace config
 	//static int const WINDOW_WIDTH = 7680;
 	//static int const WINDOW_HEIGHT = 4320;
 
+    // tile size, and tilemap sizes for main assets
 	static int const TILE_SIZE = 64;
     static int const TILEMAP_WIDTH = 22;
     static int const TILEMAP_HEIGHT = 25;
 
+    // set to desired frame rate to control delay of rendering
 	static int const FPS = 60;
 	static int const FRAME_DELAY = 1000 / FPS;
 }
