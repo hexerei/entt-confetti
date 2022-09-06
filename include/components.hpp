@@ -1,59 +1,58 @@
+/**
+ * @file components.hpp
+ * @author Daniel Vorhauer (daniel@hexerei.net)
+ * @brief Header only implementation of the components assignable to entities.
+ * @version 0.3
+ * @date 2022-09-06
+ *
+ * @copyright Copyright (c) 2022 Daniel Vorhauer
+ *
+ */
 #pragma once
-//#include "config.hpp"
 #include <SDL2/SDL.h>
 
-struct Position {
-    float x;
-    float y;
+// position component
+struct Position
+{
+    float x;    // x position on screen
+    float y;    // y position on screen
 
+    // default constructors
     Position() = default;
     Position(const Position&) = default;
+    // constructor to initialize component when adding it to entity
     Position(float px, float py)
         : x(px), y(py) {};
 };
 
-struct Velocity {
-    float dx;
-    float dy;
+// velocity component
+struct Velocity
+{
+    float dx;   // x velocity
+    float dy;   // y velocity
 
+    // default constructors
     Velocity() = default;
     Velocity(const Velocity&) = default;
+    // constructor to initialize component when adding it to entity
     Velocity(float vx, float vy)
         : dx(vx), dy(vy) {};
 };
 
-struct Color {
-    u_char r;
-    u_char g;
-    u_char b;
-    u_char a;
+// color component
+struct Color
+{
+    u_char r;   // red color component
+    u_char g;   // green color component
+    u_char b;   // blue color component
+    u_char a;   // transparency color component
 
+    // default constructors
     Color() = default;
     Color(const Color&) = default;
+    // constructor to initialize component when adding it to entity
     Color(u_char cr, u_char cg, u_char cb)
         : r(cr), g(cg), b(cb), a(255) {};
     Color(u_char cr, u_char cg, u_char cb, u_char ca)
         : r(cr), g(cg), b(cb), a(ca) {};
 };
-
-
-/*
-struct Transform {
-    std::uint32_t height = config::TILE_SIZE;
-    std::uint32_t width = config::TILE_SIZE;
-    std::uint32_t scale = 1;
-    std::uint32_t speed = 3;
-};
-
-struct Sprite {
-    bool animated = false;
-    std::uint32_t frames = 0;
-    std::uint32_t speed = 100;
-    std::uint32_t frame_index = 0;
-    std::uint32_t texture_id = 0;
-    std::uint32_t src_x = 0;
-    std::uint32_t src_y = 0;
-    std::uint32_t height = config::TILE_SIZE;
-    std::uint32_t width = config::TILE_SIZE;
-};
-*/

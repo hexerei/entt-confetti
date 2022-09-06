@@ -1,3 +1,16 @@
+/**
+ * @file Game.cpp
+ * @author Daniel Vorhauer (daniel@hexerei.net)
+ * @brief This class wraps all SDL2 calls to initialize SDL2, create the window,
+ * create the renderer and assets used in the scene, and implements the main
+ * game loop functions to handle keyboard events, update all assets and render
+ * them to the window.
+ * @version 0.3
+ * @date 2022-09-06
+ *
+ * @copyright Copyright (c) 2022 Daniel Vorhauer
+ *
+ */
 #include <iostream>
 #include <random>
 

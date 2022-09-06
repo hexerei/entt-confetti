@@ -1,6 +1,7 @@
 ################################################
-# make all or make debug makes the debug version
-# make release to make the release version
+# `make run` to build and run the debug version
+# `make all` or make debug makes the debug version
+# `make release` to make the release version
 ################################################
 
 PROG = confetti
