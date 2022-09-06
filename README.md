@@ -18,6 +18,109 @@ while functionality should be implemented by systems, in my humble opinion.
 I hope this project might serve as a useful resource to others who are perhaps new to C++ and EnTT, and can not find
 simple implementation templates as a starting point for own projects.
 
+### Usage
+
+You can just medidate and watch the confetti fly around, but if you want to be
+more interactive, use the arrow keys, or A, W, S, D keys to blow some wind in
+chosen direction and make the confetti change direction. And if it all gets too
+fast, just press the spacebar to freeze the confetti in position, and then gently
+press direction keys again, to give it some velocity again. Beware, you could
+be doing this all day ;)
+
+### Implementation
+
+The `Game` class encapsulates all the SDL2 specifics to initialize SDL create a window, create the renderer, handle events and perform the actual rendering on screen.
+
+The `Scene` class then actually uses EnTT to create the confetti entities, with their Position, Velocity and Color components. Updates their position in the `update()` function, and then renders them on screen in the `render()` function.
+
+The Position, Velocity and Color components are defined in the `components.hpp` in the `include` directory.
+
+This shows the most basic usage of the `entt::registry` and how to create entities,
+adding components to them, and how to use `views` to retreive the data components
+of interest for modification.
+
+#### Entities
+
+Entities are just unique identifiers of type `entt::entity` which are used to
+group components for a single entity. You retreive the entity identifier from
+the `entt::registry` as so:
+
+```cpp
+entt::registry m_registry;
+const auto entity = m_registry.create();
+```
+
+#### Components
+
+Components are just pure data structures, that are grouped to specific usage,
+and then can be added to an entity. To define a component, just create a named
+struct with the desired elements, and ideally create constructors, that allow
+initializing your struct with data, i.e.:
+
+```cpp
+// position component
+struct Position
+{
+    float x;    // x position on screen
+    float y;    // y position on screen
+
+    // default constructor
+    Position() = default;
+    // initialize component when adding it to entity
+    Position(float px, float py)
+        : x(px), y(py) {};
+};
+```
+
+You can then add such a component to an existing entity:
+
+```cpp
+m_registry.emplace<Position>(entity, 10.f, 10.f);
+```
+If your structs don't have a constructor to initialize their values, you may
+as well initialize them after adding them to the entity, as the `emplace` call returns the component itself.
+
+```cpp
+auto& pos = m_registry.emplace<Position>(entity);
+pos.x = 1.0f;
+pos.y = 1.0f;
+```
+
+Components can be assigned to, or removed from entities at any time.
+
+#### Systems
+
+Systems then usually are just functions or classes, that work with the
+components of one or more entities, where as you usually do your modifications
+on all components, regardless of the entity. As the components are packed in
+memory optimized format, processing over a set of components is blazing fast.
+
+There are several ways to access and group components, let me just hightlight
+the essential way of creating a view of components from all entities, iterate
+over them and modify them.
+
+Iterating over a single component type...
+
+```cpp
+auto view = m_registry.view<Position>();
+for (auto [entity, pos]: view.each()) {
+    pos.x = 0.f;
+    pos.y = 0.f;
+}
+```
+
+...or iterating over a set of components:
+
+```cpp
+auto view = m_registry.view<Position, Velocity>();
+for (auto [entity, pos, vel]: view.each()) {
+    pos.x += vel.dx;
+    pos.y += vel.dy;
+}
+```
+
+For a more in-depth insight into the entity-component systems functionality from the EnTT header-only library, check out their [Crash Course: entity-component system](https://github.com/skypjack/entt/blob/master/docs/md/entity.md).
+
 ## Prerequisites
 
 EnTT is included as a submodule in this repository, if you clone the repository with the --recursive flag:
