@@ -14,7 +14,7 @@
 #pragma once
 
 #include <SDL2/SDL.h>
-#include <entt/entt.hpp>
+#include "Scene.hpp"
 #include "config.hpp"
 
 /**
@@ -24,7 +24,7 @@ class Game
 {
 public:
     // constructor and destructure defined inline
-    Game() : m_running(false), m_window(nullptr), m_renderer(nullptr) {}
+    Game() : m_running(false), m_window(nullptr), m_renderer(nullptr), m_scene(nullptr) {}
     ~Game() { clean(); }
 
     // initialize SDL2, create window and renderer
@@ -45,12 +45,10 @@ public:
     inline bool running() { return m_running; }
 
 private:
-    // custom initialization for scene assets
-    void initCustom();
     // other private class members
     bool m_running = false;
     SDL_Window* m_window;
     SDL_Renderer* m_renderer;
     SDL_Event m_event;
-    entt::registry m_registry;
+    Scene* m_scene;
 };

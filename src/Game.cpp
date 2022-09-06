@@ -12,11 +12,7 @@
  *
  */
 #include <iostream>
-#include <random>
-
 #include "Game.hpp"
-#include "config.hpp"
-#include "components.hpp"
 
 /**
  * @brief Initialize all subsystems and create game window
@@ -93,37 +89,19 @@ bool Game::init(const char* title, int x, int y, int w, int h, bool fullscreen)
 
     SDL_SetRenderDrawColor(m_renderer, 255, 0, 0, 255);
 
-    m_running = true;
+    // add and initialize scene
+    m_scene = new Scene();
+    m_running = m_scene->init();
 
-    initCustom();
+    #ifdef DEBUG
+        if (m_running) {
+            std::cout << "Scene initialized..." << std::endl;
+        } else {
+            std::cerr << "Could not initialize Scene..." << std::endl;
+        }
+    #endif
 
     return m_running;
-}
-
-/**
- * @brief initialize entites for the scene
- */
-void Game::initCustom()
-{
-    // initialize random distributors for color, position and velocity
-    std::random_device rd;
-    std::default_random_engine eng(rd());
-    std::uniform_int_distribution<u_char> distrgb(80, 255);
-    std::uniform_int_distribution<float> distxpos(10, config::WINDOW_WIDTH - 10);
-    std::uniform_int_distribution<float> distypos(10, config::WINDOW_HEIGHT - 10);
-    std::uniform_int_distribution<float> distvel(1, 5);
-
-    // create entities, with position, velocity and color components
-    for(int i = 0; i < 1000; ++i) {
-        // create new entity
-        const auto entity = m_registry.create();
-        // add components with random position, velocity and color
-        m_registry.emplace<Position>(entity, distxpos(eng), distypos(eng));
-        float dx = (i % 2) ? distvel(eng) : -distvel(eng);
-        float dy =  (i % 3) ? distvel(eng) : -distvel(eng);
-        m_registry.emplace<Velocity>(entity, dx, dy);
-        m_registry.emplace<Color>(entity, distrgb(eng), distrgb(eng), distrgb(eng));
-    }
 }
 
 /**
@@ -154,46 +132,26 @@ void Game::handleEvents()
 	default:
 		break;
 	}
+
+    m_scene->handleEvents(m_event);
 }
 
 /**
- * @brief update all game entities
+ * @brief update scene
  */
 void Game::update()
 {
-    // update entities
-    auto view = m_registry.view<Position, Velocity>();
-    for (auto [entity, pos, vel]: view.each()) {
-        //std::cout << "Pos (" << pos.x << "," << pos.y << ") moved to ";
-        if (pos.x >= config::WINDOW_WIDTH || pos.x <= 0)
-            vel.dx *= -1.f;
-        pos.x += vel.dx;
-        if (pos.y >= config::WINDOW_HEIGHT || pos.y <= 0)
-            vel.dy *= -1.f;
-        pos.y += vel.dy;
-        //std::cout << "Pos (" << pos.x << "," << pos.y << ")" << std::endl;
-    }
+    m_scene->update();
 }
 
 /**
- * @brief render game entities
+ * @brief render scene
  */
 void Game::render()
 {
     SDL_RenderClear(m_renderer);
 
-    // draw entities
-    auto view = m_registry.view<Position, Color>();
-    for (auto [entity, pos, col]: view.each()) {
-        //std::cout << "Draw point at (" << pos.x << "," << pos.y << ")" << std::endl;
-        SDL_Rect dRect = {(int)pos.x, (int)pos.y, 4, 4};
-        SDL_SetRenderDrawColor(m_renderer, col.r, col.g, col.b, col.a);
-
-        //SDL_RenderDrawPoint(m_renderer, pos.x, pos.y);
-        SDL_RenderFillRect(m_renderer, &dRect);
-        //SDL_RenderDrawRect(m_renderer, &dRect);
-    }
-    SDL_SetRenderDrawColor(m_renderer, 0, 0, 0, 255);
+    m_scene->render(m_renderer);
 
     SDL_RenderPresent(m_renderer);
 }
@@ -205,7 +163,7 @@ void Game::clean()
 {
     m_running = false;
 
-    m_registry.clear();
+    m_scene->clean();
 
     SDL_DestroyWindow(m_window);
     SDL_DestroyRenderer(m_renderer);
